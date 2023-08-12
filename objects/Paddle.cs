@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static pong.Pong;
+using static pong.objects.InputHandler;
 
 namespace pong.objects
 {
@@ -17,9 +17,9 @@ namespace pong.objects
         private Color PlayerColor { get; set; }
         public static int PaddleWidth = 10;
         private int PaddleHeight = 161;
-
         private int _screenHeight;
         private int _screenWidth;
+        public Direction PaddleDirection { get; private set;}
 
         public Paddle(Player player, Color color, Viewport viewport)
         {
@@ -38,6 +38,7 @@ namespace pong.objects
 
         public void Move(Direction y)
         {
+            PaddleDirection = y;
             if(Bounds.Y + (int)y   < 0 || Bounds.Y + (int)y > _screenHeight - PaddleHeight )
             {
                 return;

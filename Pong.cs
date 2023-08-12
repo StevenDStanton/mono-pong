@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using pong.objects;
+using static pong.objects.InputHandler;
 using static pong.objects.Paddle;
 
 
@@ -12,17 +13,12 @@ public class Pong : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private InputHandler _inputHandler;
     private Texture2D _texture2D;
     private Paddle _leftPaddle;
     private Paddle _rightPaddle;
     private Ball _ball;
-    public enum Direction
-    {
-        Up = -1,
-        Down = 1,
-        Left,
-        Right
-    }
+
 
 
     public Pong()
@@ -30,6 +26,7 @@ public class Pong : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        _inputHandler = new InputHandler();
     }
 
     protected override void Initialize()
@@ -49,33 +46,41 @@ public class Pong : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-        
+
+
         _ball.DetectPosition(_rightPaddle, _leftPaddle);
-        KeyboardState keyboardState = Keyboard.GetState();
-        if(keyboardState.IsKeyDown(Keys.W))
-        {
-            _leftPaddle.Move(Direction.Up);
-            _ball.Move(Direction.Up, Player.Left);
-        }
-        if(keyboardState.IsKeyDown(Keys.S))
-        {
-            _leftPaddle.Move(Direction.Down);
-            _ball.Move(Direction.Down, Player.Left);
-        }
-        if(keyboardState.IsKeyDown(Keys.Up))
-        {
-            _rightPaddle.Move(Direction.Up);
-            _ball.Move(Direction.Up, Player.Right);
-        }
-        if(keyboardState.IsKeyDown(Keys.Down))
-        {
-            _rightPaddle.Move(Direction.Down);
-            _ball.Move(Direction.Down, Player.Right);
-        }
+        InputUpdate();
+        _ball.Move();
 
 
         base.Update(gameTime);
     }
+
+    private void InputUpdate()
+    {
+        // Left paddle
+        Direction leftDirection = _inputHandler.GetLeftPaddleDirection();
+        _leftPaddle.Move(leftDirection);
+        if (leftDirection != Direction.None && _ball.Locked) // Only send the follow command if the paddle is moving
+            _ball.FollowPaddle(leftDirection, Player.Left);
+
+        if (_inputHandler.IsLeftLaunchPressed())
+        {
+            _ball.Launch(_leftPaddle.PaddleDirection);
+        }
+
+        // Right paddle
+        Direction rightDirection = _inputHandler.GetRightPaddleDirection();
+        _rightPaddle.Move(rightDirection);
+        if (rightDirection != Direction.None && _ball.Locked) // Only send the follow command if the paddle is moving
+            _ball.FollowPaddle(rightDirection, Player.Right);
+
+        if (_inputHandler.IsRightLaunchPressed())
+        {
+            _ball.Launch(_rightPaddle.PaddleDirection);
+        }
+    }
+
 
     protected override void Draw(GameTime gameTime)
     {
@@ -90,7 +95,7 @@ public class Pong : Game
 
     public void CreatePaddles()
     {
-        _leftPaddle = new Paddle(Paddle.Player.Left,  Color.White, GraphicsDevice.Viewport);
+        _leftPaddle = new Paddle(Paddle.Player.Left, Color.White, GraphicsDevice.Viewport);
         _rightPaddle = new Paddle(Paddle.Player.Right, Color.White, GraphicsDevice.Viewport);
         _ball = new Ball(GraphicsDevice.Viewport, selectRandomPlayer());
     }
@@ -98,6 +103,7 @@ public class Pong : Game
     public Player selectRandomPlayer()
     {
         var randomPlayer = new Random().Next(0, 2);
-        return randomPlayer == 0 ? Player.Left : Player.Right;
+        //return randomPlayer == 0 ? Player.Left : Player.Right;
+        return Player.Right;
     }
 }

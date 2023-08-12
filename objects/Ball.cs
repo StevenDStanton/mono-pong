@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static pong.objects.InputHandler;
 using static pong.objects.Paddle;
-using static pong.Pong;
-
 namespace pong.objects
 {
     public class Ball
@@ -16,21 +12,25 @@ namespace pong.objects
         private Color BallColor { get; set; }
         private int BallWidth { get; set; }
         private int BallHeight { get; set; }
-        private int _screenHeight;
-        private int _screenWidth;
-        private bool locked = true;
+        private Vector2 Velocity { get; set; }
+        private int ScreenHeight;
+        private int ScreenWidth;
+        public bool Locked { get; private set; } = true;
+        private float Speef = 1.0f;
+        private float Deflection = 1.0f;
 
-        public Ball(Viewport viewport , Player startingPlayer)
+
+        public Ball(Viewport viewport, Player startingPlayer)
         {
-            _screenHeight = viewport.Height;
-            _screenWidth = viewport.Width;
+            ScreenHeight = viewport.Height;
+            ScreenWidth = viewport.Width;
             CurrentPlayer = startingPlayer;
             var paddleWidth = Paddle.PaddleWidth;
-            var screenCenter = _screenHeight / 2 - BallHeight / 2;
+            var screenCenter = ScreenHeight / 2 - BallHeight / 2;
             BallWidth = 10;
             BallHeight = 10;
             BallColor = Color.Red;
-            var x = CurrentPlayer == Player.Left ? BallWidth + paddleWidth : _screenWidth - BallWidth - paddleWidth - 10;
+            var x = CurrentPlayer == Player.Left ? BallWidth + paddleWidth : ScreenWidth - BallWidth - paddleWidth - 10;
             Bounds = new Rectangle(x, screenCenter, BallWidth, BallHeight);
         }
 
@@ -39,28 +39,48 @@ namespace pong.objects
             spriteBatch.Draw(_texture2D, Bounds, BallColor);
         }
 
-        public void Move(Direction y, Player player)
+        public void FollowPaddle(Direction y, Player player)
         {
-            if (locked && player == CurrentPlayer)
+            if (player == CurrentPlayer)
             {
                 var yAxis = Bounds.Y + (int)y;
                 Bounds = new Rectangle(Bounds.X, yAxis, BallWidth, BallHeight);
+                return;
             }
+        }
+
+        public void Move()
+        {
+            Console.WriteLine($"Velocity: {Velocity}");
+            Bounds = new Rectangle(Bounds.X + (int)Velocity.X, Bounds.Y + (int)Velocity.Y, BallWidth, BallHeight);
+        }
+
+        public void Launch(Direction paddleDirection)
+        {
+            if (Locked)
+            {
+                Locked = false;
+                var speed = CurrentPlayer == Player.Left ? Speef : -Speef;
+                float deflection = (float)paddleDirection * Deflection;
+                Console.WriteLine($"Paddle Direction: {paddleDirection}, Deflection: {deflection}");
+                Velocity = new Vector2(speed, deflection);
+            }
+
         }
 
         public void DetectPosition(Paddle rightPaddle, Paddle leftPaddle)
         {
-            // if (!locked && Bounds.Intersects(paddle.Bounds))
-            // {
-            //     //CurrentPlayer = paddle.PlayerColor == Color.Blue ? Player.Left : Player.Right;
-            // }
+            if (!Locked)
+            {
+                //CurrentPlayer = paddle.PlayerColor == Color.Blue ? Player.Left : Player.Right;
+            }
 
-            if(Bounds.X < 0 || Bounds.X > _screenWidth - BallWidth)
+            if (Bounds.X < 0 || Bounds.X > ScreenWidth - BallWidth)
             {
                 //Point for current player;
             }
 
-            if(Bounds.Y < 0 || Bounds.Y > _screenHeight - BallHeight)
+            if (Bounds.Y < 0 || Bounds.Y > ScreenHeight - BallHeight)
             {
                 //Make bounce
             }
