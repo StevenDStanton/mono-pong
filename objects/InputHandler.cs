@@ -8,11 +8,6 @@ namespace pong.objects
 {
     public class InputHandler
     {
-        private bool _LeftUpPressed = false;
-        private bool _LeftDownPressed = false;
-        private bool _RightUpPressed = false;
-        private bool _RightDownPressed = false;
-
         public enum Direction
         {
             Up = -1,
@@ -25,23 +20,14 @@ namespace pong.objects
             KeyboardState keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.W))
             {
-                _LeftUpPressed = true;
                 return Direction.Up;
             }
-            else if (_LeftUpPressed && keyboardState.IsKeyUp(Keys.W))
+            else if (keyboardState.IsKeyDown(Keys.S))
             {
-                _LeftUpPressed = false;
-                return Direction.None;
-            }
-
-            if (keyboardState.IsKeyDown(Keys.S))
-            {
-                _LeftDownPressed = true;
                 return Direction.Down;
             }
-            else if (_LeftDownPressed && keyboardState.IsKeyUp(Keys.S))
+            else if (keyboardState.IsKeyUp(Keys.W) || keyboardState.IsKeyUp(Keys.S))
             {
-                _LeftDownPressed = false;
                 return Direction.None;
             }
 
@@ -53,29 +39,18 @@ namespace pong.objects
             KeyboardState keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                _RightUpPressed = true;
                 return Direction.Up;
             }
-            else if (_RightUpPressed && keyboardState.IsKeyUp(Keys.Up))
+            else if (keyboardState.IsKeyDown(Keys.Down))
             {
-                _RightUpPressed = false;
-                return Direction.None;
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Down))
-            {
-                _RightDownPressed = true;
                 return Direction.Down;
             }
-            else if (_RightDownPressed && keyboardState.IsKeyUp(Keys.Down))
+            else if (keyboardState.IsKeyUp(Keys.Up) || keyboardState.IsKeyUp(Keys.Down))
             {
-                _RightDownPressed = false;
                 return Direction.None;
             }
-
             return Direction.None; // Default case
         }
-
         public bool IsLeftLaunchPressed()
         {
             return Keyboard.GetState().IsKeyDown(Keys.D);
@@ -85,9 +60,5 @@ namespace pong.objects
         {
             return Keyboard.GetState().IsKeyDown(Keys.Left);
         }
-
-
-
-
     }
 }

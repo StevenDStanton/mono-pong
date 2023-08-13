@@ -15,19 +15,22 @@ namespace pong.objects
         }
         public Rectangle Bounds { get; private set; }
         private Color PlayerColor { get; set; }
+        private const float PLAYER_SPEED = 300.0f;
         public static int PaddleWidth = 10;
         private int PaddleHeight = 161;
         private int _screenHeight;
         private int _screenWidth;
-        public Direction PaddleDirection { get; private set;}
+        private Vector2 PlayerPosition;
+        public Direction PaddleDirection { get; private set; }
 
         public Paddle(Player player, Color color, Viewport viewport)
         {
             _screenHeight = viewport.Height;
             _screenWidth = viewport.Width;
             var screenCenter = _screenHeight / 2 - PaddleHeight / 2;
-            var x = player == Player.Left ? 10 : _screenWidth - PaddleWidth -10;
-            Bounds = new Rectangle(x, screenCenter, PaddleWidth, PaddleHeight);
+            var playerX = player == Player.Left ? 10 : _screenWidth - PaddleWidth - 10;
+            PlayerPosition = new Vector2(playerX, screenCenter);
+            Bounds = new Rectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, PaddleWidth, PaddleHeight);
             PlayerColor = color;
         }
 
@@ -36,17 +39,27 @@ namespace pong.objects
             spriteBatch.Draw(_texture2D, Bounds, PlayerColor);
         }
 
-        public void Move(Direction y)
+        public void Move(Direction y, float deltaTime)
         {
             PaddleDirection = y;
-            if(Bounds.Y + (int)y   < 0 || Bounds.Y + (int)y > _screenHeight - PaddleHeight )
-            {
-                return;
-            }
-            var yAxis = Bounds.Y + (int)y;
-            Bounds = new Rectangle(Bounds.X, yAxis, PaddleWidth, PaddleHeight);
 
+            // Modify the PlayerPosition based on the direction and speed
+            PlayerPosition.Y += (float)y * PLAYER_SPEED * deltaTime;
+
+            // Check boundaries and correct if necessary
+            if (PlayerPosition.Y < 0)
+            {
+                PlayerPosition.Y = 0;
+            }
+            else if (PlayerPosition.Y > _screenHeight - PaddleHeight)
+            {
+                PlayerPosition.Y = _screenHeight - PaddleHeight;
+            }
+
+            // Update the Bounds using the PlayerPosition
+            Bounds = new Rectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, PaddleWidth, PaddleHeight);
         }
+
     }
 
 

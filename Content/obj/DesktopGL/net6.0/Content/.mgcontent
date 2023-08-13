@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>D:/Projects/games/pong/Content/Arial.spritefont</File>
+    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_000.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_001.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_002.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_003.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_004.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/Dark Robotic Voice - Activated.wav</File>
+    <File>D:/Projects/games/pong/Content/sounds/Dark Robotic Voice - Mission Failed.wav</File>
+    <File>D:/Projects/games/pong/Content/songs/LOOP_New Destinations.wav</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>

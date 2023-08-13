@@ -1,1 +1,10 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"D:/Projects/games/pong/Content/Arial.spritefont","D:/Projects/games/pong/Content/bin/DesktopGL/Content/Arial.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21535,0.272468
+"D:/Projects/games/pong/Content/songs/LOOP_New Destinations.wav","D:/Projects/games/pong/Content/bin/DesktopGL/Content/songs/LOOP_New Destinations.xnb","SongProcessor","SongContent",3632438,139,0.6551204
+"D:/Projects/games/pong/Content/sounds/Dark Robotic Voice - Activated.wav","D:/Projects/games/pong/Content/bin/DesktopGL/Content/sounds/Dark Robotic Voice - Activated.xnb","SoundEffectProcessor","SoundEffectContent",172628,168637,0.3113813
+"D:/Projects/games/pong/Content/sounds/Dark Robotic Voice - Mission Failed.wav","D:/Projects/games/pong/Content/bin/DesktopGL/Content/sounds/Dark Robotic Voice - Mission Failed.xnb","SoundEffectProcessor","SoundEffectContent",245648,241657,0.2010021
+"D:/Projects/games/pong/Content/sounds/impactMetal_medium_000.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/Content/sounds/impactMetal_medium_000.xnb","SoundEffectProcessor","SoundEffectContent",7117,49513,0.2689277
+"D:/Projects/games/pong/Content/sounds/impactMetal_medium_001.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/Content/sounds/impactMetal_medium_001.xnb","SoundEffectProcessor","SoundEffectContent",6151,28521,0.1396569
+"D:/Projects/games/pong/Content/sounds/impactMetal_medium_002.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/Content/sounds/impactMetal_medium_002.xnb","SoundEffectProcessor","SoundEffectContent",5857,23401,0.1323835
+"D:/Projects/games/pong/Content/sounds/impactMetal_medium_003.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/Content/sounds/impactMetal_medium_003.xnb","SoundEffectProcessor","SoundEffectContent",6964,45417,0.1363808
+"D:/Projects/games/pong/Content/sounds/impactMetal_medium_004.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/Content/sounds/impactMetal_medium_004.xnb","SoundEffectProcessor","SoundEffectContent",5744,20329,0.1298564

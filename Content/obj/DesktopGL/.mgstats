@@ -1,0 +1,6 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"D:/Projects/games/pong/Content/sounds/impactGlass_light_000.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/sounds/impactGlass_light_000.xnb","SongProcessor","SongContent",6526,139,0.2620799
+"D:/Projects/games/pong/Content/sounds/impactGlass_light_001.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/sounds/impactGlass_light_001.xnb","SongProcessor","SongContent",6544,139,0.1432167
+"D:/Projects/games/pong/Content/sounds/impactGlass_light_002.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/sounds/impactGlass_light_002.xnb","SongProcessor","SongContent",6562,139,0.1454139
+"D:/Projects/games/pong/Content/sounds/impactGlass_light_003.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/sounds/impactGlass_light_003.xnb","SongProcessor","SongContent",6618,139,0.1467956
+"D:/Projects/games/pong/Content/sounds/impactGlass_light_004.ogg","D:/Projects/games/pong/Content/bin/DesktopGL/sounds/impactGlass_light_004.xnb","SongProcessor","SongContent",6641,139,0.1534519

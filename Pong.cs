@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using pong.objects;
 using static pong.objects.InputHandler;
 using static pong.objects.Paddle;
+
 
 
 namespace pong;
@@ -15,9 +17,13 @@ public class Pong : Game
     private SpriteBatch _spriteBatch;
     private InputHandler _inputHandler;
     private Texture2D _texture2D;
-    private Paddle _leftPaddle;
-    private Paddle _rightPaddle;
-    private Ball _ball;
+
+    private Paddle LeftPaddle;
+    private Paddle RightPaddle;
+    private GameBall Ball;
+    private GameCounter Counter;
+    private Song newDestinationsSong;
+
 
 
 
@@ -33,6 +39,11 @@ public class Pong : Game
     {
         base.Initialize();
         CreatePaddles();
+        Counter = new GameCounter(Content.Load<SpriteFont>("Arial"));
+        newDestinationsSong = Content.Load<Song>("songs/LOOP_New Destinations");
+        MediaPlayer.IsRepeating = true;
+        MediaPlayer.Volume = 0.5f; // 50% volume
+        MediaPlayer.Play(newDestinationsSong);
     }
 
     protected override void LoadContent()
@@ -40,70 +51,73 @@ public class Pong : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _texture2D = new Texture2D(GraphicsDevice, 1, 1);
         _texture2D.SetData(new[] { Color.White });
+
+
     }
 
     protected override void Update(GameTime gameTime)
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-
-
-        _ball.DetectPosition(_rightPaddle, _leftPaddle);
-        InputUpdate();
-        _ball.Move();
+        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        InputUpdate(deltaTime);
+        Ball.Move(RightPaddle, LeftPaddle, Counter, deltaTime);
 
 
         base.Update(gameTime);
     }
 
-    private void InputUpdate()
+    private void InputUpdate(float deltaTime)
     {
         // Left paddle
         Direction leftDirection = _inputHandler.GetLeftPaddleDirection();
-        _leftPaddle.Move(leftDirection);
-        if (leftDirection != Direction.None && _ball.Locked) // Only send the follow command if the paddle is moving
-            _ball.FollowPaddle(leftDirection, Player.Left);
+        LeftPaddle.Move(leftDirection, deltaTime);
 
         if (_inputHandler.IsLeftLaunchPressed())
         {
-            _ball.Launch(_leftPaddle.PaddleDirection);
+            Ball.Launch(LeftPaddle.PaddleDirection);
         }
 
         // Right paddle
         Direction rightDirection = _inputHandler.GetRightPaddleDirection();
-        _rightPaddle.Move(rightDirection);
-        if (rightDirection != Direction.None && _ball.Locked) // Only send the follow command if the paddle is moving
-            _ball.FollowPaddle(rightDirection, Player.Right);
+        RightPaddle.Move(rightDirection, deltaTime);
 
         if (_inputHandler.IsRightLaunchPressed())
         {
-            _ball.Launch(_rightPaddle.PaddleDirection);
+            Ball.Launch(RightPaddle.PaddleDirection);
         }
     }
 
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Black);
         _spriteBatch.Begin();
-        _leftPaddle.Draw(_spriteBatch, _texture2D);
-        _rightPaddle.Draw(_spriteBatch, _texture2D);
-        _ball.Draw(_spriteBatch, _texture2D);
+        LeftPaddle.Draw(_spriteBatch, _texture2D);
+        RightPaddle.Draw(_spriteBatch, _texture2D);
+        Ball.Draw(_spriteBatch, _texture2D);
+        Counter.Draw(_spriteBatch, GraphicsDevice.Viewport);
+
+
+
+
+
         _spriteBatch.End();
         base.Draw(gameTime);
     }
 
     public void CreatePaddles()
     {
-        _leftPaddle = new Paddle(Paddle.Player.Left, Color.White, GraphicsDevice.Viewport);
-        _rightPaddle = new Paddle(Paddle.Player.Right, Color.White, GraphicsDevice.Viewport);
-        _ball = new Ball(GraphicsDevice.Viewport, selectRandomPlayer());
+        LeftPaddle = new Paddle(Paddle.Player.Left, Color.Green, GraphicsDevice.Viewport);
+        RightPaddle = new Paddle(Paddle.Player.Right, Color.Green, GraphicsDevice.Viewport);
+        Ball = new GameBall(GraphicsDevice.Viewport, SelectRandomPlayer(), LeftPaddle, RightPaddle, Content);
     }
 
-    public Player selectRandomPlayer()
+    public Player SelectRandomPlayer()
     {
         var randomPlayer = new Random().Next(0, 2);
-        //return randomPlayer == 0 ? Player.Left : Player.Right;
-        return Player.Right;
+        return randomPlayer == 1 ? Player.Left : Player.Right;
     }
+
+
 }
