@@ -10,7 +10,7 @@ namespace pong.objects
 {
     public class GameBall
     {
-        List<SoundEffect> soundEffects = new List<SoundEffect>();
+        List<SoundEffect> soundEffects = new List<SoundEffect>(5);
         SoundEffect activatedEffect;
         SoundEffect missionFailedEffect;
         private Player CurrentPlayer { get; set; }
@@ -22,9 +22,9 @@ namespace pong.objects
         private Color BallColor { get; set; }
         private int BallWidth { get; set; }
         private int BallHeight { get; set; }
-
         private int ScreenHeight;
         private int ScreenWidth;
+        private Random _random = new Random();
         public bool Locked { get; private set; } = true;
 
 
@@ -38,13 +38,13 @@ namespace pong.objects
             ScreenWidth = viewport.Width;
             for (int i = 0; i <= 4; i++)
             {
-                SoundEffect se = Content.Load<SoundEffect>($"sounds\\impactMetal_medium_{i:000}");
+                SoundEffect se = Content.Load<SoundEffect>($"sounds\\forceField_{i:000}");
                 soundEffects.Add(se);
             }
 
             //Need to find new sounds these don't fit
-            activatedEffect = Content.Load<SoundEffect>("sounds/Dark Robotic Voice - Activated");
-            missionFailedEffect = Content.Load<SoundEffect>("sounds/Dark Robotic Voice - Mission Failed");
+            activatedEffect = Content.Load<SoundEffect>("sounds/laserLarge_000");
+            missionFailedEffect = Content.Load<SoundEffect>("sounds/explosionCrunch_000");
             Reset();
         }
 
@@ -78,8 +78,6 @@ namespace pong.objects
                 Reset();
                 return;
             }
-            Console.WriteLine($"Ball Speed: {BallSpeed}");
-
             Bounds = new Rectangle(
                 Bounds.X + (int)(BallVelocity.X * BallSpeed * deltaTime),
                 Bounds.Y + (int)(BallVelocity.Y * BallSpeed * deltaTime),
@@ -97,51 +95,43 @@ namespace pong.objects
                 Locked = false;
                 var speed = CurrentPlayer == Player.Left ? BallSpeed : -BallSpeed;
                 float deflection = (float)paddleDirection * Deflection;
-                Console.WriteLine($"Paddle Direction: {paddleDirection}, Deflection: {deflection}");
                 BallVelocity = new Vector2(speed, deflection);
             }
 
         }
 
-        public void playRandomSound()
+        public void PlayRandomSound()
         {
-            Random random = new Random();
-            int index = random.Next(0, 4);
+            int index = _random.Next(0, 4);
             soundEffects[index].Play();
         }
 
         public void DetectPosition(Paddle rightPaddle, Paddle leftPaddle, GameCounter counter)
         {
-            if (Bounds.Intersects(leftPaddle.Bounds))
+            bool collision = false;
+
+            if (Bounds.Intersects(leftPaddle.Bounds) && BallVelocity.X < 0)
             {
-                playRandomSound();
+                collision = true;
+                CurrentPaddle = leftPaddle;
                 CurrentPlayer = Player.Left;
-                if (BallVelocity.X < 0) // Ensure ball is moving towards the left paddle
-                {
-                    BallVelocity = new Vector2(
-                        -BallVelocity.X, // reverse horizontal direction
-                        BallVelocity.Y + (float)leftPaddle.PaddleDirection * Deflection // adjust the vertical speed based on deflection
-                    );
-                }
-                BallSpeed += 1.0f;
             }
-            else if (Bounds.Intersects(rightPaddle.Bounds))
+            else if (Bounds.Intersects(rightPaddle.Bounds) && BallVelocity.X > 0)
             {
-                playRandomSound();
+                collision = true;
+                CurrentPaddle = rightPaddle;
                 CurrentPlayer = Player.Right;
-                if (BallVelocity.X > 0) // Ensure ball is moving towards the right paddle
-                {
-                    BallVelocity = new Vector2(
-                        -BallVelocity.X, // reverse horizontal direction
-                        BallVelocity.Y + (float)rightPaddle.PaddleDirection * Deflection // adjust the vertical speed based on deflection
-                    );
-                }
-                BallSpeed += 1.0f;
             }
-            BallSpeed = BallSpeed > 55.0f ? 55.0f : BallSpeed;
 
-            CurrentPaddle = CurrentPlayer == Player.Left ? leftPaddle : rightPaddle;
-
+            if (collision)
+            {
+                PlayRandomSound();
+                BallVelocity = new Vector2(
+                    -BallVelocity.X,
+                    BallVelocity.Y + (float)CurrentPaddle.PaddleDirection * Deflection
+                );
+                BallSpeed = Math.Min(BallSpeed + 1.0f, 55.0f);
+            }
 
             if (Bounds.X < 0 || Bounds.X > ScreenWidth - BallWidth)
             {
@@ -154,7 +144,7 @@ namespace pong.objects
 
             if (Bounds.Y < 0 || Bounds.Y > ScreenHeight - BallHeight)
             {
-                playRandomSound();
+                PlayRandomSound();
                 BallVelocity = new Vector2(
                     BallVelocity.X,  // retain horizontal direction
                     -BallVelocity.Y  // reverse vertical direction

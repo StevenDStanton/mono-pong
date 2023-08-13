@@ -7,8 +7,6 @@ using pong.objects;
 using static pong.objects.InputHandler;
 using static pong.objects.Paddle;
 
-
-
 namespace pong;
 
 public class Pong : Game
@@ -17,15 +15,11 @@ public class Pong : Game
     private SpriteBatch _spriteBatch;
     private InputHandler _inputHandler;
     private Texture2D _texture2D;
-
     private Paddle LeftPaddle;
     private Paddle RightPaddle;
     private GameBall Ball;
     private GameCounter Counter;
     private Song newDestinationsSong;
-
-
-
 
     public Pong()
     {
@@ -33,6 +27,11 @@ public class Pong : Game
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
         _inputHandler = new InputHandler();
+        _graphics.IsFullScreen = true;
+        _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+        _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+        _graphics.ApplyChanges();
     }
 
     protected override void Initialize()
@@ -40,7 +39,7 @@ public class Pong : Game
         base.Initialize();
         CreatePaddles();
         Counter = new GameCounter(Content.Load<SpriteFont>("Arial"));
-        newDestinationsSong = Content.Load<Song>("songs/LOOP_New Destinations");
+        newDestinationsSong = Content.Load<Song>("songs/LOOP_Your Mind Posessed!");
         MediaPlayer.IsRepeating = true;
         MediaPlayer.Volume = 0.5f; // 50% volume
         MediaPlayer.Play(newDestinationsSong);
@@ -51,8 +50,6 @@ public class Pong : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _texture2D = new Texture2D(GraphicsDevice, 1, 1);
         _texture2D.SetData(new[] { Color.White });
-
-
     }
 
     protected override void Update(GameTime gameTime)
@@ -62,32 +59,22 @@ public class Pong : Game
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
         InputUpdate(deltaTime);
         Ball.Move(RightPaddle, LeftPaddle, Counter, deltaTime);
-
-
         base.Update(gameTime);
     }
 
     private void InputUpdate(float deltaTime)
     {
-        // Left paddle
-        Direction leftDirection = _inputHandler.GetLeftPaddleDirection();
-        LeftPaddle.Move(leftDirection, deltaTime);
-
-        if (_inputHandler.IsLeftLaunchPressed())
-        {
-            Ball.Launch(LeftPaddle.PaddleDirection);
-        }
-
-        // Right paddle
-        Direction rightDirection = _inputHandler.GetRightPaddleDirection();
-        RightPaddle.Move(rightDirection, deltaTime);
-
-        if (_inputHandler.IsRightLaunchPressed())
-        {
-            Ball.Launch(RightPaddle.PaddleDirection);
-        }
+        UpdatePaddle(LeftPaddle, _inputHandler.GetLeftPaddleDirection, _inputHandler.IsLeftLaunchPressed, deltaTime);
+        UpdatePaddle(RightPaddle, _inputHandler.GetRightPaddleDirection, _inputHandler.IsRightLaunchPressed, deltaTime);
     }
 
+    private void UpdatePaddle(Paddle paddle, Func<Direction> getDirection, Func<bool> isLaunchPressed, float deltaTime)
+    {
+        Direction direction = getDirection();
+        paddle.Move(direction, deltaTime);
+        if (isLaunchPressed())
+            Ball.Launch(paddle.PaddleDirection);
+    }
 
     protected override void Draw(GameTime gameTime)
     {
@@ -97,11 +84,6 @@ public class Pong : Game
         RightPaddle.Draw(_spriteBatch, _texture2D);
         Ball.Draw(_spriteBatch, _texture2D);
         Counter.Draw(_spriteBatch, GraphicsDevice.Viewport);
-
-
-
-
-
         _spriteBatch.End();
         base.Draw(gameTime);
     }
@@ -118,6 +100,4 @@ public class Pong : Game
         var randomPlayer = new Random().Next(0, 2);
         return randomPlayer == 1 ? Player.Left : Player.Right;
     }
-
-
 }

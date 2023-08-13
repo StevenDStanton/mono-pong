@@ -5,14 +5,14 @@
   <Config />
   <SourceFiles>
     <File>D:/Projects/games/pong/Content/Arial.spritefont</File>
-    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_000.ogg</File>
-    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_001.ogg</File>
-    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_002.ogg</File>
-    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_003.ogg</File>
-    <File>D:/Projects/games/pong/Content/sounds/impactMetal_medium_004.ogg</File>
-    <File>D:/Projects/games/pong/Content/sounds/Dark Robotic Voice - Activated.wav</File>
-    <File>D:/Projects/games/pong/Content/sounds/Dark Robotic Voice - Mission Failed.wav</File>
-    <File>D:/Projects/games/pong/Content/songs/LOOP_New Destinations.wav</File>
+    <File>D:/Projects/games/pong/Content/sounds/forceField_000.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/forceField_001.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/forceField_002.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/forceField_003.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/forceField_004.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/laserLarge_000.ogg</File>
+    <File>D:/Projects/games/pong/Content/sounds/explosionCrunch_000.ogg</File>
+    <File>D:/Projects/games/pong/Content/songs/LOOP_Your Mind Posessed!.wav</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

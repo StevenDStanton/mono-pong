@@ -15,7 +15,7 @@ namespace pong.objects
         }
         public Rectangle Bounds { get; private set; }
         private Color PlayerColor { get; set; }
-        private const float PLAYER_SPEED = 300.0f;
+        private const float PLAYER_SPEED = 500.0f;
         public static int PaddleWidth = 10;
         private int PaddleHeight = 161;
         private int _screenHeight;
@@ -23,15 +23,16 @@ namespace pong.objects
         private Vector2 PlayerPosition;
         public Direction PaddleDirection { get; private set; }
 
-        public Paddle(Player player, Color color, Viewport viewport)
+        public Paddle(Player playerSide, Color color, Viewport viewport)
         {
             _screenHeight = viewport.Height;
             _screenWidth = viewport.Width;
             var screenCenter = _screenHeight / 2 - PaddleHeight / 2;
-            var playerX = player == Player.Left ? 10 : _screenWidth - PaddleWidth - 10;
+            var playerX = playerSide == Player.Left ? 10 : _screenWidth - PaddleWidth - 10;
             PlayerPosition = new Vector2(playerX, screenCenter);
             Bounds = new Rectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, PaddleWidth, PaddleHeight);
             PlayerColor = color;
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D _texture2D)

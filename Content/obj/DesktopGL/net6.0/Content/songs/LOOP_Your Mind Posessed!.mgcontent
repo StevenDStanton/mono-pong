@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>D:/Projects/games/pong/Content/songs/LOOP_Your Mind Posessed!.wav</SourceFile>
+  <SourceTime>2020-03-09T15:55:39.6506765-04:00</SourceTime>
+  <DestFile>D:/Projects/games/pong/Content/bin/DesktopGL/Content/songs/LOOP_Your Mind Posessed!.xnb</DestFile>
+  <DestTime>2023-08-13T04:47:47.5428004-04:00</DestTime>
+  <Importer>WavImporter</Importer>
+  <ImporterTime>2022-07-26T07:44:56-04:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2022-07-26T07:44:56-04:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>D:/Projects/games/pong/Content/bin/DesktopGL/Content/songs/LOOP_Your Mind Posessed!.ogg</string>
+  </BuildOutput>
+</PipelineBuildEvent>

@@ -24,48 +24,47 @@
 
 #---------------------------------- Sounds ---------------------------------#
 
-#begin sounds/impactMetal_medium_000.ogg
+#begin sounds/forceField_000.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/build:sounds/impactMetal_medium_000.ogg
+/build:sounds/forceField_000.ogg
 
-#begin sounds/impactMetal_medium_001.ogg
+#begin sounds/forceField_001.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/build:sounds/impactMetal_medium_001.ogg
+/build:sounds/forceField_001.ogg
 
-#begin sounds/impactMetal_medium_002.ogg
+#begin sounds/forceField_002.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/build:sounds/impactMetal_medium_002.ogg
+/build:sounds/forceField_002.ogg
 
-#begin sounds/impactMetal_medium_003.ogg
+#begin sounds/forceField_003.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/build:sounds/impactMetal_medium_003.ogg
+/build:sounds/forceField_003.ogg
 
-#begin sounds/impactMetal_medium_004.ogg
+#begin sounds/forceField_004.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/build:sounds/impactMetal_medium_004.ogg
+/build:sounds/forceField_004.ogg
 
-#begin sounds/Dark Robotic Voice - Activated.wav
-/importer:WavImporter
+#begin sounds/laserLarge_000.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/Dark Robotic Voice - Activated.wav
+/build:sounds/laserLarge_000.ogg
 
-#begin sounds/Dark Robotic Voice - Mission Failed.wav
-/importer:WavImporter
+#begin sounds/explosionCrunch_000.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/Dark Robotic Voice - Mission Failed.wav
+/build:sounds/explosionCrunch_000.ogg
+
 
 
 #---------------------------------- Songs ---------------------------------#
 
-#begin songs/LOOP_New Destinations.wav
+#begin songs/LOOP_Your Mind Posessed!.wav
 /importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:songs/LOOP_New Destinations.wav
+/build:songs/LOOP_Your Mind Posessed!.wav
