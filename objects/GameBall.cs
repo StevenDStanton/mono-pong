@@ -42,7 +42,6 @@ namespace pong.objects
                 soundEffects.Add(se);
             }
 
-            //Need to find new sounds these don't fit
             activatedEffect = Content.Load<SoundEffect>("sounds/laserLarge_000");
             missionFailedEffect = Content.Load<SoundEffect>("sounds/explosionCrunch_000");
             Reset();
